@@ -4,8 +4,9 @@ jobs:
   build-create-dmg:
     macos:
       xcode: "15.2.0"
-    environment:
-      MATRIX_OS: macos-14
+    parameters:
+      os_version:
+        type: string
     steps:
       - checkout
       - run:
@@ -29,7 +30,7 @@ jobs:
               --icon-size 128 \
               --icon "Xcode_15.2.app" 240 108 \
               --app-drop-link 240 332 \
-              output/Sample_xcode_${MATRIX_OS}.dmg \
+              output/Sample_xcode_<<parameters.os_version>>.dmg \
               /Applications/Xcode_15.2.app
 
 workflows:
@@ -37,10 +38,6 @@ workflows:
   build_and_test:
     jobs:
       - build-create-dmg:
-          name: build-create-dmg-macos-14
-          environment:
-            MATRIX_OS: macos-14
+          os_version: "macos-14"
       - build-create-dmg:
-          name: build-create-dmg-macos-13
-          environment:
-            MATRIX_OS: macos-13
+          os_version: "macos-13"
