@@ -1,0 +1,43 @@
+name: Testing HDIUtil
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-create-dmg:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['macos-14','macos-13']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.2.app
+
+      - name: Build Xcode Project
+        run : |
+          xcodebuild clean build - project Sample.xcode.proj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
+
+      - name: Install create-dmg
+        run : |
+          brew install create-dmg
+
+      - name: Create a disk image using create-dmg
+        run : |
+          mkdir -p output
+          create-dmg \
+            --volname "Sample" \
+            --window-pos 100 100 \
+            --window-size 480 582 \
+            --icon-size 128 \
+            --icon "Xcode_15.2.app" 240 108 \
+            --app-drop-link 240 332 \
+            output/Sample_xcode_${{ matrix.os }}.dmg \
+            /Applications/Xcode_15.2.app
+            
+          
