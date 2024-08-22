@@ -10,9 +10,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Setup Xcode
-          command: sudo xcode-select -s /Applications/Xcode_15.2.app
-      - run:
           name: Build Xcode Project
           command: |
             xcodebuild clean build -project Sample.xcodeproj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
