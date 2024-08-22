@@ -10,6 +10,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: List contents of /Applications/
+          command: ls -la /Applications/
+      - run:
           name: Build Xcode Project
           command: |
             xcodebuild clean build -project Sample.xcodeproj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
