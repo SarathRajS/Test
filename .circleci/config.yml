@@ -1,47 +1,44 @@
-# Couldn't automatically generate a config from your source code.
-# This is a generic template to serve as a base for your custom config
-# See: https://circleci.com/docs/configuration-reference
-# Stacks detected: cicd:github-actions:.github/workflows
 version: 2.1
+
 jobs:
-  test:
-    docker:
-      - image: cimg/base:stable
+  build-create-dmg:
+    macos:
+      xcode: "15.2.0"
+    executor: macos
+    parallelism: 2
+    environment:
+      MATRIX_OS: macos-14 macos-13
     steps:
       - checkout
-      # Replace this with a real test runner invocation
       - run:
-          name: Run tests
-          command: echo 'replace me with real tests!' && false
-  build:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - checkout
-      # Replace this with steps to build a package, or executable
+          name: Setup Xcode
+          command: sudo xcode-select -s /Applications/Xcode_15.2.app
       - run:
-          name: Build an artifact
-          command: touch example.txt
-      - store_artifacts:
-          path: example.txt
-  deploy:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      # Replace this with steps to deploy to users
+          name: Build Xcode Project
+          command: |
+            xcodebuild clean build -project Sample.xcodeproj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Install create-dmg
+          command: brew install create-dmg
       - run:
-          name: found github actions config
-          command: ':'
+          name: Create a disk image using create-dmg
+          command: |
+            mkdir -p output
+            create-dmg \
+              --volname "Sample" \
+              --window-pos 100 100 \
+              --window-size 480 582 \
+              --icon-size 128 \
+              --icon "Xcode_15.2.app" 240 108 \
+              --app-drop-link 240 332 \
+              output/Sample_xcode_${MATRIX_OS}.dmg \
+              /Applications/Xcode_15.2.app
+
 workflows:
-  example:
+  version: 2
+  build_and_test:
     jobs:
-      - test
-      - build:
-          requires:
-            - test
-      - deploy:
-          requires:
-            - test
+      - build-create-dmg:
+          matrix:
+            parameters:
+              MATRIX_OS: ["macos-14", "macos-13"]
