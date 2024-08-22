@@ -23,7 +23,7 @@ jobs:
           name: Create a disk image using create-dmg
           command: |
             mkdir -p output
-            create-dmg \
+            sudo create-dmg \
               --volname "Sample" \
               --window-pos 100 100 \
               --window-size 480 582 \
