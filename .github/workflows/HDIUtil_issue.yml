@@ -21,7 +21,7 @@ jobs:
 
       - name: Build Xcode Project
         run : |
-          xcodebuild clean build - project Sample.xcode.proj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
+          xcodebuild clean build -project Sample.xcode.proj -scheme Sample -configuration Debug -derivedDataPath build -sdk iphonesimulator
 
       - name: Install create-dmg
         run : |
