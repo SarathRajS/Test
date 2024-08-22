@@ -1,0 +1,7 @@
+version: "Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)"
+options: "fda16c9e8a679037d0b907df475943389514018414e2f33f32fe38b581f9e60e"
+build_start_time: [1724276264, 308268070]
+build_end_time: [1724276264, 353615999]
+inputs:
+  "/Users/sarath/Desktop/Sample/Sample/ContentView.swift": !private [1724268098, 994458675]
+  "/Users/sarath/Desktop/Sample/Sample/SampleApp.swift": !private [1724268098, 986303329]
