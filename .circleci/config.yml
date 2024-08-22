@@ -30,6 +30,7 @@ jobs:
               --icon-size 128 \
               --icon "Xcode-15.2.app" 240 108 \
               --app-drop-link 240 332 \
+              --filesystem APFS \
               output/Sample_xcode_<<parameters.os_version>>.dmg \
               /Applications/Xcode-15.2.app
 
