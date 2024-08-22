@@ -4,8 +4,8 @@ jobs:
   build-create-dmg:
     macos:
       xcode: "15.2.0"
-    executor: macos
-    parallelism: 2
+    environment:
+      MATRIX_OS: macos-14
     steps:
       - checkout
       - run:
@@ -37,6 +37,10 @@ workflows:
   build_and_test:
     jobs:
       - build-create-dmg:
-          matrix:
-            parameters:
-              MATRIX_OS: ["macos-14", "macos-13"]
+          name: build-create-dmg-macos-14
+          environment:
+            MATRIX_OS: macos-14
+      - build-create-dmg:
+          name: build-create-dmg-macos-13
+          environment:
+            MATRIX_OS: macos-13
