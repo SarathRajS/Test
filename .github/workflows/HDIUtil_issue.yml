@@ -37,6 +37,7 @@ jobs:
             --icon-size 128 \
             --icon "Xcode_15.2.app" 240 108 \
             --app-drop-link 240 332 \
+            --filesystem APFS \
             output/Sample_xcode_${{ matrix.os }}.dmg \
             /Applications/Xcode_15.2.app
             
